@@ -19,7 +19,7 @@ const authOptions = {
                     const userExists = await User.findOne({ email });
 
                     if (!userExists) {
-                        const res = await fetch("https://next-auth-gg.vercel.app/api/user", {
+                        const res = await fetch("http://localhost:3000/api/user", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
