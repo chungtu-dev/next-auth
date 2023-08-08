@@ -10,9 +10,9 @@ const Navbar = () => {
             <Link className='font-bold text-lg text-blue-700' href={'/'}>Next Auth</Link>
             {
                 status === 'authenticated' ? (
-                    <button onClick={() => signOut()} className='bg-slate-900 text-white px-6 py-2 rounded-md'>Sign Out</button>
+                    <button onClick={() => signOut()} className='bg-slate-900 text-white px-6 py-2 rounded-md'>Đăng xuất</button>
                 ) : (
-                    <button onClick={() => signIn('google')} className='bg-slate-900 text-white px-6 py-2 rounded-md'>Sign In</button>
+                    <button onClick={() => signIn('google')} className='bg-slate-900 text-white px-6 py-2 rounded-md'>Đăng nhập</button>
                 )
             }
         </div>

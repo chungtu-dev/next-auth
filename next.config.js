@@ -5,7 +5,8 @@ const nextConfig = {
             "cdn-icons-png.flaticon.com",
             "lh3.googleusercontent.com",
             "img.icons8.com",
-            "upload.wikimedia.org"
+            "upload.wikimedia.org",
+            "www.icegif.com"
         ]
     }
 }

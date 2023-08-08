@@ -9,6 +9,7 @@ import moment from 'moment/moment'
 import axios from 'axios'
 import Regist from './Regist'
 import Login from './Login'
+import Swal from 'sweetalert2'
 
 const UserInfo = () => {
     const { status, data: session } = useSession()
@@ -26,11 +27,15 @@ const UserInfo = () => {
     );
 
     const getPosts = async () => {
-        const res = await axios.get(`/api/posts`).then((response) => (
-            setPosts(response.data)
-            // console.log(response.data)
-        ))
-        return res
+        try {
+            const res = await axios.get(`/api/posts`).then((response) => (
+                setPosts(response.data)
+                // console.log(response.data)
+            ))
+            return res
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
@@ -52,6 +57,13 @@ const UserInfo = () => {
                 }),
             });
             mutate()
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Đăng bài thành gòi nhe!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
             e.target.reset()
             setLoading(false)
         } catch (err) {
@@ -67,11 +79,31 @@ const UserInfo = () => {
     }
 
     const handleDelete = async (id) => {
+        setActiveUpdate(false)
         try {
-            await fetch(`/api/posts/${id}`, {
-                method: "DELETE",
+            Swal.fire({
+                title: 'Chắc chưa?',
+                text: "Xóa nghen!!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Hoy',
+                confirmButtonText: 'Ừa! xóa mịe đi'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Dồi ok',
+                        'Xóa òi nghen',
+                        'success'
+                    )
+                    const res = fetch(`/api/posts/${id}`, {
+                        method: "DELETE",
+                    })
+                    mutate()
+                    return res
+                }
             })
-            mutate()
         } catch (error) {
             console.log(error);
         }
@@ -79,35 +111,41 @@ const UserInfo = () => {
 
     if (status === 'authenticated') {
         return (
-            <div className="flex flex-row justify-between w-full">
+            <div className="flex flex-row justify-between w-full absolute pt-20 m-30">
 
-                <div>
-                    <div className='flex flex-row'>
-                        <h2 className="m-4 text-blue-400">Chuyện của Bạn và mấy khứa kia</h2>
+                <div className='w-3/5'>
+                    <div className='flex flex-row justify-center m-2'>
+                        <h2 className="m-4 text-blue-400 font-bold">Chuyện của Bạn và mấy khứa kia</h2>
                         <Image src="https://upload.wikimedia.org/wikipedia/en/9/9a/Trollface_non-free.png" width={70} height={70} alt="troll-face" />
                     </div>
                     {
-                        posts?.map((item) => (
-                            <div key={item._id} className="flex flex-col m-4 p-3 bg-gray-100 rounded">
-                                <ul>
-                                    <li>
-                                        <small>{item.username === author ? "Bạn: " : 'Khứa: '}</small>
-                                        {item.username}
-                                    </li>
-                                    <li>
-                                        <small>Nó đang nghĩ:</small> {item.title}
-                                    </li>
-                                    <li>
-                                        <small>Chuyện là vầy:</small> {item.content}
-                                    </li>
-                                </ul>
-                                <small>Đăng hồi: {item.updatedAt}</small>
-                            </div>
-                        ))
+                        loading
+                            ? "Chờ xíu"
+                            : <>
+                                {
+                                    posts?.map((item) => (
+                                        <div key={item._id} className={item.username === author ? "flex flex-col m-4 p-3 bg-lime-200 rounded" : "flex flex-col m-4 p-3 bg-emerald-100 rounded"}>
+                                            <ul>
+                                                <li>
+                                                    <small>{item.username === author ? "Bạn: " : 'Khứa: '}</small>
+                                                    {item.username}
+                                                </li>
+                                                <li>
+                                                    <small>Nó đang nghĩ:</small> {item.title}
+                                                </li>
+                                                <li>
+                                                    <small>Chuyện là vầy:</small> {item.content}
+                                                </li>
+                                            </ul>
+                                            <small>Đăng hồi: {item.updatedAt}</small>
+                                        </div>
+                                    ))
+                                }
+                            </>
                     }
                 </div>
 
-                <div className="relative overflow-y-auto">
+                <div className="relative overflow-y-auto w-2/5 m-10">
                     <div className='shadow-xl p-8 rounded-md flex flex-col gap-3 bg-yellow-200'>
                         <Image className='rounded-full' src={session?.user?.image} width={60} height={60} alt="user img" />
                         <div>
@@ -122,10 +160,10 @@ const UserInfo = () => {
                         loading
                             ? "Loading..."
                             : <form onSubmit={handleSubmit} className='flex flex-col'>
-                                <h1 className='text-center m-3 font-bold text-red-400'>Add New Post</h1>
-                                <input className='border-none bg-slate-300 p-3 m-2' type="text" placeholder="Title" />
-                                <input className='border-none bg-slate-300 p-3 m-2' type="text" placeholder="Content" />
-                                <button className='bg-green-300 rounded p-3 mt-3 font-bold'>Send</button>
+                                <h1 className='text-center m-3 font-bold text-red-400'>Bạn đang nghĩ gì...</h1>
+                                <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Ngắn gọn" />
+                                <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Nghĩ gì đừng ngại" />
+                                <button className='bg-teal-600 text-white rounded p-3 mt-3 font-bold'>Đăng bài</button>
                             </form>
                     }
                     {
