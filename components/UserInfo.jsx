@@ -7,6 +7,8 @@ import useSWR from "swr";
 import UpdateForm from './UpdateForm'
 import moment from 'moment/moment'
 import axios from 'axios'
+import Regist from './Regist'
+import Login from './Login'
 
 const UserInfo = () => {
     const { status, data: session } = useSession()
@@ -89,7 +91,7 @@ const UserInfo = () => {
                             <div key={item._id} className="flex flex-col m-4 p-3 bg-gray-100 rounded">
                                 <ul>
                                     <li>
-                                    <small>{item.username === author ? "Bạn: " : 'Khứa: '}</small>
+                                        <small>{item.username === author ? "Bạn: " : 'Khứa: '}</small>
                                         {item.username}
                                     </li>
                                     <li>
@@ -174,7 +176,11 @@ const UserInfo = () => {
         )
     } else {
         return (
-            <SignInButton />
+            <>
+                <SignInButton />
+                {/* <Regist />
+                <Login/> */}
+            </>
         )
     }
 }
