@@ -19,15 +19,22 @@ const UpdateForm = ({ item }) => {
             }
             await axios.put(`/api/posts/${item._id}`, newPost);
             Swal.fire({
-                title: 'Rồi á!',
-                text: 'Ok rồi, chờ xíu nghen ní',
+                title: 'Đang cập nhật',
+                text: 'Bấm dùm cái nút CÊ cái ní',
                 imageUrl: 'https://www.icegif.com/wp-content/uploads/2023/02/icegif-519.gif',
                 imageWidth: 400,
                 imageHeight: 200,
                 imageAlt: 'Custom image',
-                confirmButtonText:"Oke lun nè"
+                confirmButtonText: "CÊ"
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    Swal.fire(
+                        'Gòi',
+                        'Chờ xíu nghen ní',
+                        'success'
+                    )
+                }
             })
-            location.reload()
         } catch (error) {
             console.log(error);
         }
