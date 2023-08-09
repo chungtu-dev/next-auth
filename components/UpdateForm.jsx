@@ -33,6 +33,7 @@ const UpdateForm = ({ item }) => {
                         'Chờ xíu nghen ní',
                         'success'
                     )
+                    location.reload()
                 }
             })
         } catch (error) {

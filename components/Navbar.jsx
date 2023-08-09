@@ -7,9 +7,9 @@ import Image from 'next/image'
 const Navbar = () => {
     const { status } = useSession()
     return (
-        <div className='p-4 flex justify-between items-center shadow-md'>
+        <div className='p-2 m-2 rounded flex justify-between items-center' style={{backgroundColor:'rgb(139 172 225 / 49%)'}}>
             <Link className='font-bold text-lg text-blue-700' href={'/'}>
-                <Image src="https://img.icons8.com/color-pixels/32/experimental-duck-color-pixels.png" width={50} height={50} alt="logo duck"/>
+                <Image src="https://www.icegif.com/wp-content/uploads/2023/04/icegif-1428.gif" width={100} height={100} alt="logo duck"/>
             </Link>
             {
                 status === 'authenticated' ? (

@@ -157,16 +157,12 @@ const UserInfo = () => {
                         </div>
                     </div>
 
-                    {
-                        isLoading
-                            ? <Loading />
-                            : <form onSubmit={handleSubmit} className='flex flex-col'>
-                                <h1 className='text-center m-3 font-bold text-red-400'>Bạn đang nghĩ gì...</h1>
-                                <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Ngắn gọn" />
-                                <textarea className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' placeholder="Nói đi đừng ngại" cols="30"></textarea>
-                                <button className='bg-teal-600 text-white rounded p-3 mt-3 font-bold'>Đăng bài</button>
-                            </form>
-                    }
+                    <form onSubmit={handleSubmit} className='flex flex-col'>
+                        <h1 className='text-center m-3 font-bold text-red-400'>Bạn đang nghĩ gì...</h1>
+                        <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Ngắn gọn" />
+                        <textarea className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' placeholder="Nói đi đừng ngại" cols="30"></textarea>
+                        <button className='bg-teal-600 text-white rounded p-3 mt-3 font-bold'>Đăng bài</button>
+                    </form>
                     {
                         isLoading
                             ? <Loading />
