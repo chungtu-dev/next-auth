@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 const UpdateForm = ({ item }) => {
     const [newTitle, setNewTitle] = useState("")
     const [newContent, setNewContent] = useState("")
-    console.log(item);
+    // console.log(item);
 
     const handleSubmitUpdate = async (e) => {
         e.preventDefault()
@@ -20,13 +20,14 @@ const UpdateForm = ({ item }) => {
             await axios.put(`/api/posts/${item._id}`, newPost);
             Swal.fire({
                 title: 'Rồi á!',
-                text: 'Bấm OK rồi F5 dùm cái ní',
+                text: 'Ok rồi, chờ xíu nghen ní',
                 imageUrl: 'https://www.icegif.com/wp-content/uploads/2023/02/icegif-519.gif',
                 imageWidth: 400,
                 imageHeight: 200,
                 imageAlt: 'Custom image',
                 confirmButtonText:"Oke lun nè"
             })
+            location.reload()
         } catch (error) {
             console.log(error);
         }

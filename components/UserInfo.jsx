@@ -10,13 +10,14 @@ import axios from 'axios'
 import Regist from './Regist'
 import Login from './Login'
 import Swal from 'sweetalert2'
+import Loading from './Loading'
 
 const UserInfo = () => {
     const { status, data: session } = useSession()
     const [activeUpdate, setActiveUpdate] = useState(false)
     const [itemToUpdate, setItemToUpdate] = useState([])
-    const [loading, setLoading] = useState(false)
     const [posts, setPosts] = useState([])
+    const [loading, setLoading] = useState(false)
     const author = session?.user?.name
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -40,13 +41,12 @@ const UserInfo = () => {
 
     useEffect(() => {
         getPosts()
-    }, [])
+    }, [posts])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const title = e.target[0].value;
         const content = e.target[1].value;
-        setLoading(true)
         try {
             await fetch("/api/posts", {
                 method: "POST",
@@ -60,14 +60,12 @@ const UserInfo = () => {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Đăng bài thành gòi nhe!!',
+                title: 'Đăng bài oke gòi nhe!!',
                 showConfirmButton: false,
                 timer: 1500
             })
             e.target.reset()
-            setLoading(false)
         } catch (err) {
-            setLoading(false)
             console.log(err);
         }
     };
@@ -81,6 +79,7 @@ const UserInfo = () => {
     const handleDelete = async (id) => {
         setActiveUpdate(false)
         try {
+            setLoading(true)
             Swal.fire({
                 title: 'Chắc chưa?',
                 text: "Xóa nghen!!!",
@@ -88,7 +87,7 @@ const UserInfo = () => {
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                cancelButtonText: 'Hoy',
+                cancelButtonText: 'Đổi ý',
                 confirmButtonText: 'Ừa! xóa mịe đi'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -97,13 +96,15 @@ const UserInfo = () => {
                         'Xóa òi nghen',
                         'success'
                     )
-                    const res = fetch(`/api/posts/${id}`, {
+                    fetch(`/api/posts/${id}`, {
                         method: "DELETE",
                     })
                     mutate()
-                    return res
+                    getPosts()
+                    setLoading(false)
                 }
             })
+            // location.reload()
         } catch (error) {
             console.log(error);
         }
@@ -113,15 +114,15 @@ const UserInfo = () => {
         return (
             <div className="flex flex-row justify-between w-full absolute pt-20 m-30">
 
-                <div className='w-3/5'>
-                    <div className='flex flex-row justify-center m-2'>
+                <div className='w-3/5 h-96 relative'>
+                    <div className='flex flex-row justify-center m-2 sticky'>
                         <h2 className="m-4 text-blue-400 font-bold">Chuyện của Bạn và mấy khứa kia</h2>
                         <Image src="https://upload.wikimedia.org/wikipedia/en/9/9a/Trollface_non-free.png" width={70} height={70} alt="troll-face" />
                     </div>
                     {
                         loading
-                            ? "Chờ xíu"
-                            : <>
+                            ? <Loading />
+                            : <div className='absolute h-96 overflow-scroll w-full'>
                                 {
                                     posts?.map((item) => (
                                         <div key={item._id} className={item.username === author ? "flex flex-col m-4 p-3 bg-lime-200 rounded" : "flex flex-col m-4 p-3 bg-emerald-100 rounded"}>
@@ -141,7 +142,7 @@ const UserInfo = () => {
                                         </div>
                                     ))
                                 }
-                            </>
+                            </div>
                     }
                 </div>
 
@@ -157,18 +158,18 @@ const UserInfo = () => {
                     </div>
 
                     {
-                        loading
-                            ? "Loading..."
+                        isLoading
+                            ? <Loading />
                             : <form onSubmit={handleSubmit} className='flex flex-col'>
                                 <h1 className='text-center m-3 font-bold text-red-400'>Bạn đang nghĩ gì...</h1>
                                 <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Ngắn gọn" />
-                                <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Nghĩ gì đừng ngại" />
+                                <textarea className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' placeholder="Nói đi đừng ngại" cols="30"></textarea>
                                 <button className='bg-teal-600 text-white rounded p-3 mt-3 font-bold'>Đăng bài</button>
                             </form>
                     }
                     {
                         isLoading
-                            ? "Loading Post(s)..."
+                            ? <Loading />
                             : <div className='flex flex-col'>
                                 <div className="absolute flex flex-col w-full">
                                     {
