@@ -1,11 +1,11 @@
 "use client"
-import axios from 'axios';
+import { signIn } from 'next-auth/react';
 import React, { useState } from 'react'
 
 const Login = () => {
     const [user, setUser] = useState({
         name: '',
-        email: '',
+        password: '',
     })
 
     const setData = (e) => {
@@ -18,35 +18,44 @@ const Login = () => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        const res = axios.get(`/api/user`)
-        .then((response) => console.log(response))
-        const info = {
-            ...user
+        try {
+            const status = await signIn('credentials', {
+                redirect: false,
+                name: user.name,
+                password: user.password,
+                callbackUrl: '/'
+            })
+            if (status.ok) {
+                status.url
+            }
+            console.log(status);
+        } catch (error) {
+            console.log(error);
         }
-        console.log(info);
-        return res
     };
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="flex flex-col m-5 p-5">
                 <input
                     type="text"
                     onChange={setData}
                     value={user.name}
                     name='name'
-                    placeholder='name'
+                    placeholder='Tên đăng nhập'
+                    className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2"
                 />
                 <input
                     type="text"
                     onChange={setData}
-                    value={user.email}
-                    name='email'
-                    placeholder='email'
+                    value={user.password}
+                    name='password'
+                    placeholder='Mật khẩu'
+                    className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2"
                 />
-                <button>Login</button>
+                <button className='bg-emerald-700 p-2 rounded text-emerald-200 font-bold'>Đăng nhập</button>
             </form>
         </div>
     )

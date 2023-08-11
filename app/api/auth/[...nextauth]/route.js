@@ -2,6 +2,8 @@ import { connectMongoDB } from "@/lib/mongodb";
 import User from "@/models/user";
 import NextAuth from "next-auth/next";
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcrypt";
 
 const authOptions = {
     providers: [
@@ -9,6 +11,28 @@ const authOptions = {
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         }),
+        CredentialsProvider({
+            name:"Credentials",
+            async authorize(credentials, req){
+                await connectMongoDB()
+
+                //check user existance
+                const userResult = await User.findOne({email: credentials.email, name: credentials.name})
+                if(!userResult){
+                    console.log("No user found!");
+                }
+
+                //compare password
+                const checkPassword = await compare(credentials.password, userResult.password)
+
+                //incorrect password
+                if(!checkPassword || userResult.email !== credentials.email){
+                    console.log("Username or Password not match");
+                }
+
+                return userResult
+            }
+        })
     ],
     callbacks: {
         async signIn({ user, account }) {

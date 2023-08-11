@@ -147,15 +147,15 @@ const UserInfo = () => {
                 </div>
 
                 <div className="relative overflow-y-auto w-2/5 m-10">
-                    <div className='shadow-xl p-8 rounded-md flex flex-col gap-3 bg-yellow-200'>
-                        <Image className='rounded-full' src={session?.user?.image} width={60} height={60} alt="user img" />
+                    {/* <div className='shadow-xl p-8 rounded-md flex flex-col gap-3 bg-yellow-200'>
+                        <Image className='rounded-full' src={session?.user?.image ? session?.user?.image : "https://cdn.pixabay.com/photo/2014/03/24/17/06/bird-295026_1280.png"} width={60} height={60} alt="user img" />
                         <div>
                             Name: <span className='font-bold'>{session?.user?.name}</span>
                         </div>
                         <div>
                             Email: <span className='font-bold'>{session?.user?.email}</span>
                         </div>
-                    </div>
+                    </div> */}
 
                     <form onSubmit={handleSubmit} className='flex flex-col'>
                         <h1 className='text-center m-3 font-bold text-red-400'>Bạn đang nghĩ gì...</h1>
@@ -211,11 +211,15 @@ const UserInfo = () => {
         )
     } else {
         return (
-            <>
+            <div>
+                <div className="flex justify-center">
                 <SignInButton />
-                {/* <Regist />
-                <Login/> */}
-            </>
+                </div>
+                <div className="flex flex-row">
+                    <Regist />
+                    <Login />
+                </div>
+            </div>
         )
     }
 }
