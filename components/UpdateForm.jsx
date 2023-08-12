@@ -40,7 +40,7 @@ const UpdateForm = ({ item }) => {
 
     const removeSelectedImage = () => {
         setSelectedImage();
-        setAttachment()
+        setAttachment("")
     };
     /* #endregion */
 
@@ -90,8 +90,8 @@ const UpdateForm = ({ item }) => {
                     <img src={item.image} alt="img post to update" />
                 </div>
 
-                <div className="p-5 m-5">
-                    <h3>Chọn ảnh mới</h3>
+                <div className="m-5">
+                    <h3 className='font-bold text-sky-700'>Chọn ảnh mới</h3>
                     <input
                         className='absolute'
                         id='inpfile'
@@ -121,9 +121,12 @@ const UpdateForm = ({ item }) => {
                     }
                 </div>
 
-                <button type="submit" className="flex justify-center mt-4">
-                    <Image src='https://img.icons8.com/cotton/64/save.png' width={30} height={30} alt="save" />
-                </button>
+                <div className="flex justify-center shadow-xl p-3">
+                    <button type="submit" className="flex justify-center mt-4 bg-green-700 w-24 rounded">
+                        <Image src='https://img.icons8.com/cotton/64/save.png' width={30} height={30} alt="save" />
+                        <span className='font-bold text-green-200'>Lưu</span>
+                    </button>
+                </div>
             </form>
         </div>
     )

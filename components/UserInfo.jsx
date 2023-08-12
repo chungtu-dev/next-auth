@@ -212,8 +212,8 @@ const UserInfo = () => {
                         <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Ngắn gọn" />
                         <textarea className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' placeholder="Nói đi đừng ngại" cols="30"></textarea>
 
-                        <div>
-                            <label htmlFor="inpfile">Chọn ảnh</label>
+                        <div className='mt-2'>
+                            <label className='bg-slate-300 m-2 p-2 rounded' htmlFor="inpfile">Chọn ảnh</label>
                             <input
                                 className='absolute hidden'
                                 id='inpfile'
@@ -278,7 +278,10 @@ const UserInfo = () => {
                                         <div className='m-1 bg-rose-200 rounded'>
                                             <div className='flex flex-row justify-end m-2'>
                                                 <button className='m-1' onClick={() => setActiveUpdate(!activeUpdate)}>
-                                                    <Image src='https://img.icons8.com/cotton/64/cancel-2--v2.png' width={30} height={30} alt="cancel" />
+                                                    <div className='flex flex-row'>
+                                                        <span className='font-bold text-orange-700 m-1'>Đóng</span>
+                                                        <Image src='https://img.icons8.com/cotton/64/cancel-2--v2.png' width={30} height={30} alt="cancel" />
+                                                    </div>
                                                 </button>
                                             </div>
                                             {
