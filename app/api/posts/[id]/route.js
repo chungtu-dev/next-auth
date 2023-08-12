@@ -15,12 +15,12 @@ export const GET = async (req, res, { params }) => {
 
 export const PUT = async (req, { params }) => {
     const { id } = params;
-    const {title, content } = await req.json();
+    const {title, content, image } = await req.json();
     try {
         await connectMongoDB()
         const postToUpdate = await Post.findByIdAndUpdate(
             id,
-            { title, content },
+            { title, content, image },
             { new: true }
         )
         return new NextResponse(JSON.stringify(postToUpdate), { status: 200 })
