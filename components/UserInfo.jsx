@@ -97,19 +97,31 @@ const UserInfo = () => {
                 body: JSON.stringify({
                     title,
                     content,
-                    image: attachment,
+                    image: attachment ? attachment : 'https://images.unsplash.com/photo-1598620617137-2ab990aadd37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZW1wdHl8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=60',
                     username: session?.user?.name
                 }),
             });
+            if (title && content) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Đăng bài thành công',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                mutate()
+                e.target.reset()
+                setSelectedImage(null)
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'warning',
+                    title: 'Vui lòng đăng đủ nội dung',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
             mutate()
-            Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Đăng bài oke gòi nhe!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            e.target.reset()
         } catch (err) {
             console.log(err);
         }
@@ -134,20 +146,20 @@ const UserInfo = () => {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 cancelButtonText: 'Đổi ý',
-                confirmButtonText: 'Ừa! xóa mịe đi'
+                confirmButtonText: 'Ok! Xóa'
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire(
-                        'Dồi ok',
-                        'Xóa òi nghen',
+                        'Hoàn tất',
+                        'Xóa bài thành công',
                         'success'
                     )
                     fetch(`/api/posts/${id}`, {
                         method: "DELETE",
                     })
-                    mutate()
-                    getPosts()
                 }
+                mutate()
+                getPosts()
             })
             // location.reload()
         } catch (error) {
@@ -160,29 +172,29 @@ const UserInfo = () => {
         return (
             <div className="flex flex-row justify-between w-full absolute">
 
-                <div className='w-3/5 relative'>
+                <div className='w-3/5 relative m-10'>
                     <div className='flex flex-row justify-center m-2 sticky'>
-                        <Image src="/story.jpg" width={200} height={200} alt="troll-face" />
+                        <Image src="/story.jpg" width={200} height={200} alt="story" />
                     </div>
                     {
                         isLoading
                             ? <Loading />
-                            : <div className='absolute h-5/6 overflow-scroll w-full'>
+                            : <div className='absolute h-screen overflow-scroll w-full'>
                                 {
                                     posts?.map((item) => (
                                         <div key={item._id} className={item.username === author ? "flex flex-col m-4 p-3 bg-lime-200 rounded" : "flex flex-col m-4 p-3 bg-emerald-100 rounded"}>
                                             <ul>
                                                 <li>
-                                                    <small>{item.username === author ? "Bạn: " : 'Khứa: '}</small>
+                                                    <small>{item.username === author ? "Bạn: " : 'Người khác: '}</small>
                                                     {item.username}
                                                 </li>
                                                 <li>
-                                                    <small>Nó đang nghĩ:</small> {item.title}
+                                                    <small>Cảm nghĩ:</small> {item.title}
                                                 </li>
                                                 <li>
-                                                    <small>Chuyện là vầy:</small> {item.content}
+                                                    <small>Câu chuyện:</small> {item.content}
                                                 </li>
-                                                <li><small>Đăng hồi: {item.updatedAt}</small></li>
+                                                <li><small>Thời gian: {item.updatedAt}</small></li>
                                                 <li>
                                                     <div className="h-2/4 w-2/4 shadow-xl">
                                                         <img className='w-full h-full rounded' src={item.image ? item.image : "empty-img.png"} width={70} height={50} alt="img post" />
@@ -209,8 +221,8 @@ const UserInfo = () => {
 
                     <form onSubmit={handleSubmit} className='flex flex-col'>
                         <h1 className='text-center m-3 font-bold text-red-400'>Bạn đang nghĩ gì...</h1>
-                        <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Ngắn gọn" />
-                        <textarea className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' placeholder="Nói đi đừng ngại" cols="30"></textarea>
+                        <input className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' type="text" placeholder="Cảm nghĩ..." />
+                        <textarea className='border-solid border-2 border-sky-500 bg-slate-200 p-3 m-2 rounded' placeholder="Câu chuyện..." cols="30"></textarea>
 
                         <div className='mt-2'>
                             <label className='bg-slate-300 m-2 p-2 rounded' htmlFor="inpfile">Chọn ảnh</label>
@@ -230,11 +242,12 @@ const UserInfo = () => {
                                         {selectedImage && (
                                             <div>
                                                 <img
+                                                    className='p-5'
                                                     src={URL.createObjectURL(selectedImage)}
                                                     alt="Thumb"
                                                 />
                                                 <button onClick={removeSelectedImage}>
-                                                    Remove This Image
+                                                    Xóa ảnh này
                                                 </button>
                                             </div>
                                         )}
@@ -243,7 +256,7 @@ const UserInfo = () => {
                             }
                         </div>
 
-                        <button className='bg-teal-600 text-white rounded p-3 mt-3 font-bold'>Đăng bài</button>
+                        <button className='bg-teal-600 text-white rounded p-3 mt-3 font-bold'>Chia sẻ</button>
                     </form>
                     {
                         isLoading

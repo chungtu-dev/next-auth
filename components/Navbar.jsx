@@ -17,7 +17,7 @@ const Navbar = () => {
             </div>
             {
                 status === 'authenticated'
-                    ? (<button onClick={() => signOut()} className='bg-slate-900 text-white px-6 py-2 rounded-md'>Đăng xuất</button>)
+                    ? (<button onClick={() => signOut()} className='bg-slate-500 text-white px-6 py-2 rounded-md'>Đăng xuất</button>)
                     : <span className='text-pink-500 font-bold border-4 border-pink-200 p-3 rounded shadow-xl'>Hi! Bro</span>
                 // (<button onClick={() => signIn('google')} className='bg-slate-900 text-white px-6 py-2 rounded-md'>Đăng nhập</button>)
             }
