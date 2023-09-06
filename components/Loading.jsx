@@ -5,7 +5,7 @@ const Loading = () => {
     <div className='flex justify-center mt-5 flex-col items-center'>
         <div className="dots-bars-6"></div>
         <div>
-        <h2>Chờ xíu để tải cái</h2>
+        <h2>Đang tải..Vui lòng đợi xíu nhé!</h2>
         </div>
     </div>
   )
