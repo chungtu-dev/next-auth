@@ -42,7 +42,8 @@ const Regist = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmitRegist} className="flex flex-col m-5 p-5">
+            <span className='text-center text-cyan-600 font-bold'>Đăng kí tài khoản</span>
+            <form onSubmit={handleSubmitRegist} className="flex flex-col m-5">
                 <input className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" onChange={setData} value={user.name} name='name' id='name' placeholder='Tên' />
 
                 <input className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2" type="text" onChange={setData} value={user.email} name='email' placeholder='Email' />

@@ -19,6 +19,7 @@ const UserInfo = () => {
     const [posts, setPosts] = useState([])
     const [attachment, setAttachment] = useState("");
     const [selectedImage, setSelectedImage] = useState();
+    const [active, setActive] = useState(false);
     const author = session?.user?.name
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -161,8 +162,7 @@ const UserInfo = () => {
 
                 <div className='w-3/5 relative'>
                     <div className='flex flex-row justify-center m-2 sticky'>
-                        <h2 className="m-4 text-blue-400 font-bold">Chuyện của Bạn và mấy khứa kia</h2>
-                        <Image src="https://upload.wikimedia.org/wikipedia/en/9/9a/Trollface_non-free.png" width={70} height={70} alt="troll-face" />
+                        <Image src="/story.jpg" width={200} height={200} alt="troll-face" />
                     </div>
                     {
                         isLoading
@@ -299,13 +299,24 @@ const UserInfo = () => {
         )
     } else {
         return (
-            <div>
+            <div className='flex flex-col justify-center'>
+                <div className="border-b-2 text-center p-5">
+                    {
+                        active && <>
+                            <Regist />
+                            <button onClick={() => setActive(!active)} className='text-center text-emerald-700 font-bold text-sm'>Đăng nhập tài khoản đã có</button>
+                        </>
+                    }
+                    {
+                        !active && <>
+                            <Login />
+                            <button onClick={() => setActive(!active)} className='text-center text-cyan-900 font-bold text-sm'>Tạo tải khoản TẠI ĐÂY nè!</button>
+                        </>
+                    }
+                </div>
+                <span className='text-center text-orange-600 font-bold m-3'>Hoặc đăng nhập qua Google</span>
                 <div className="flex justify-center">
                     <SignInButton />
-                </div>
-                <div className="flex flex-row">
-                    <Regist />
-                    <Login />
                 </div>
             </div>
         )

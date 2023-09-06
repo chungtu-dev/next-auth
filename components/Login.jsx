@@ -38,7 +38,8 @@ const Login = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="flex flex-col m-5 p-5">
+            <span className='text-center text-cyan-600 font-bold'>Đăng nhập bằng tài khoản</span>
+            <form onSubmit={handleSubmit} className="flex flex-col m-3">
                 <input
                     type="text"
                     onChange={setData}
