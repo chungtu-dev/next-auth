@@ -2,5 +2,3 @@ next authen google
 credentials
 CRUD posts
 Data MongoDB
-
-hello bro
