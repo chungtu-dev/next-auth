@@ -17,7 +17,8 @@ const authOptions = {
                 await connectMongoDB()
 
                 //check user existance
-                const userResult = await User.findOne({email: credentials.email, name: credentials.name})
+                const userResult = await User.findOne({email: credentials.email, password: credentials.password})
+                console.log(userResult);
                 if(!userResult){
                     console.log("No user found!");
                 }

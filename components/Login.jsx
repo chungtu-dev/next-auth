@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 const Login = () => {
     const router = useRouter();
     const [user, setUser] = useState({
-        name: '',
+        email: '',
         password: '',
     })
+    // const [email, setEmail] = useState('a@gmail.com')
+    // const [password, setPassword] = useState('111111')
 
     const setData = (e) => {
         const { name, value } = e.target
@@ -25,10 +27,11 @@ const Login = () => {
         try {
             const status = await signIn('credentials', {
                 redirect: false,
-                name: user.name,
+                email: user.email,
                 password: user.password
             })
             if (status.ok) {
+                console.log('oke');
                 status.url
                 router.replace("/");
             }
@@ -45,8 +48,10 @@ const Login = () => {
                 <input
                     type="text"
                     onChange={setData}
-                    value={user.name}
-                    name='name'
+                    value={user.email}
+                    // onChange={(e) => setEmail(e.target.value)}
+                    // value={email}
+                    name='email'
                     placeholder='Tên đăng nhập'
                     className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2"
                 />
@@ -54,6 +59,8 @@ const Login = () => {
                     type="text"
                     onChange={setData}
                     value={user.password}
+                    // onChange={(e) => setPassword(e.target.value)}
+                    // value={password}
                     name='password'
                     placeholder='Mật khẩu'
                     className="bg-gray-100 w-full rounded-lg px-4 py-2 mb-2"
