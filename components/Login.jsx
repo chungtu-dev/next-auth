@@ -1,8 +1,10 @@
 "use client"
 import { signIn } from 'next-auth/react';
 import React, { useState } from 'react'
+import { useRouter } from "next/navigation";
 
 const Login = () => {
+    const router = useRouter();
     const [user, setUser] = useState({
         name: '',
         password: '',
@@ -24,11 +26,11 @@ const Login = () => {
             const status = await signIn('credentials', {
                 redirect: false,
                 name: user.name,
-                password: user.password,
-                callbackUrl: '/'
+                password: user.password
             })
             if (status.ok) {
                 status.url
+                router.replace("/");
             }
             console.log(status);
         } catch (error) {
