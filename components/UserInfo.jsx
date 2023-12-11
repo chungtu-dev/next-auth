@@ -313,7 +313,7 @@ const UserInfo = () => {
     } else {
         return (
             <div className='flex flex-col justify-center'>
-                <div className="border-b-2 text-center p-5">
+                {/* <div className="border-b-2 text-center p-5">
                     {
                         active && <>
                             <Regist />
@@ -326,8 +326,8 @@ const UserInfo = () => {
                             <button onClick={() => setActive(!active)} className='text-center text-cyan-900 font-bold text-sm'>Tạo tải khoản TẠI ĐÂY nè!</button>
                         </>
                     }
-                </div>
-                <span className='text-center text-orange-600 font-bold m-3'>Hoặc đăng nhập qua Google</span>
+                </div> */}
+                <span className='text-center text-orange-600 font-bold m-3'>Đăng nhập qua Google</span>
                 {/* <span className='text-center text-orange-600 font-bold m-3'>Đăng nhập</span> */}
                 <div className="flex justify-center">
                     <SignInButton />

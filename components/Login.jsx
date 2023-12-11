@@ -26,7 +26,7 @@ const Login = () => {
         e.preventDefault()
         try {
             const status = await signIn('credentials', {
-                redirect: false,
+                redirect: true,
                 email: user.email,
                 password: user.password
             })
