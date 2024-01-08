@@ -7,8 +7,8 @@ import useSWR from "swr";
 import UpdateForm from './UpdateForm'
 import moment from 'moment/moment'
 import axios from 'axios'
-import Regist from './Regist'
-import Login from './Login'
+// import Regist from './Regist'
+// import Login from './Login'
 import Swal from 'sweetalert2'
 import Loading from './Loading'
 
@@ -19,7 +19,7 @@ const UserInfo = () => {
     const [posts, setPosts] = useState([])
     const [attachment, setAttachment] = useState("");
     const [selectedImage, setSelectedImage] = useState();
-    const [active, setActive] = useState(false);
+    // const [active, setActive] = useState(false);
     const author = session?.user?.name
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -327,7 +327,7 @@ const UserInfo = () => {
                         </>
                     }
                 </div> */}
-                <span className='text-center text-orange-600 font-bold m-3'>Đăng nhập qua Google</span>
+                <span className='text-center text-orange-600 font-bold m-3'>Đăng nhập Google</span>
                 {/* <span className='text-center text-orange-600 font-bold m-3'>Đăng nhập</span> */}
                 <div className="flex justify-center">
                     <SignInButton />
